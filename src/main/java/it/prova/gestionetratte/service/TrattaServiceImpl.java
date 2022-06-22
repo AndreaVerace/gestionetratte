@@ -2,6 +2,8 @@ package it.prova.gestionetratte.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,44 +18,40 @@ public class TrattaServiceImpl implements TrattaService {
 
 	@Override
 	public List<Tratta> listAllElements(boolean eager) {
-		// TODO Auto-generated method stub
-		return null;
+		return (List<Tratta>) trattaRepository.findAll();
 	}
 
 	@Override
 	public Tratta caricaSingoloElemento(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return trattaRepository.findById(id).orElse(null);
 	}
 
 	@Override
 	public Tratta caricaSingoloElementoEager(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return trattaRepository.findSingleTrattaEager(id);
 	}
 
 	@Override
+	@Transactional
 	public Tratta aggiorna(Tratta trattaInstance) {
-		// TODO Auto-generated method stub
-		return null;
+		return trattaRepository.save(trattaInstance);
 	}
 
 	@Override
+	@Transactional
 	public Tratta inserisciNuovo(Tratta trattaInstance) {
-		// TODO Auto-generated method stub
-		return null;
+		return trattaRepository.save(trattaInstance);
 	}
 
 	@Override
+	@Transactional
 	public void rimuovi(Tratta trattaInstance) {
-		// TODO Auto-generated method stub
-		
+		trattaRepository.delete(trattaInstance);		
 	}
 
 	@Override
 	public List<Tratta> findByExample(Tratta example) {
-		// TODO Auto-generated method stub
-		return null;
+		return trattaRepository.findByExample(example);
 	}
 	
 	
