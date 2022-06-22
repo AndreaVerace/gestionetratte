@@ -45,6 +45,10 @@ public class CustomTrattaRepositoryImpl implements CustomTrattaRepository {
 			whereClauses.add("t.oraAtterraggio >= :oraAtterraggio ");
 			paramaterMap.put("oraAtterraggio", example.getOraAtterraggio());
 		}
+		if (example.getStato() != null) {
+			whereClauses.add("t.stato like :stato ");
+			paramaterMap.put("stato", example.getStato());
+		}
 		if(example.getAirbus() != null && example.getAirbus().getId() > 0) {
 			whereClauses.add(" t.airbus =:airbus ");
 			paramaterMap.put("airbus", example.getAirbus());
