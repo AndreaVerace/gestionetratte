@@ -131,7 +131,7 @@ public class TrattaController {
 			}
 		}
 		for(TrattaDTO tratta : result) {
-			
+			tratta.getAirbus().setConSovrapposizioni(true);
 		}
 		return result;
 	}

@@ -33,7 +33,7 @@ public class AirbusController {
 	public List<AirbusDTO> getAll() {
 		// senza DTO qui hibernate dava il problema del N + 1 SELECT
 		// (probabilmente dovuto alle librerie che serializzano in JSON)
-		return AirbusDTO.createAirbusDTOListFromModelList(airbusService.listAllElementsEager(), true);
+		return AirbusDTO.createAirbusDTOListFromModelList(airbusService.listAllElementsEager(), true,null);
 	}
 	
 	@GetMapping("/{id}")
@@ -43,7 +43,7 @@ public class AirbusController {
 		if (airbus == null)
 			throw new AirbusNotFoundException("Airbus not found con id: " + id);
 
-		return AirbusDTO.buildAirbusDTOFromModel(airbus, true);
+		return AirbusDTO.buildAirbusDTOFromModel(airbus, true,null);
 	}
 	
 	
@@ -55,7 +55,7 @@ public class AirbusController {
 			throw new IdNotNullForInsertException("Non è ammesso fornire un id per la creazione");
 		
 		Airbus airbusInserito = airbusService .inserisciNuovo(airbusInput.buildAirbusModel());
-		return AirbusDTO.buildAirbusDTOFromModel(airbusInserito, false);
+		return AirbusDTO.buildAirbusDTOFromModel(airbusInserito, false,null);
 	}
 	
 	@PutMapping("/{id}")
@@ -67,7 +67,7 @@ public class AirbusController {
 
 		airbusInput.setId(id);
 		Airbus airbusAggiornato = airbusService.aggiorna(airbusInput.buildAirbusModel());
-		return AirbusDTO.buildAirbusDTOFromModel(airbusAggiornato, false);
+		return AirbusDTO.buildAirbusDTOFromModel(airbusAggiornato, false,null);
 	}
 	
 	@DeleteMapping("/{id}")
@@ -84,6 +84,6 @@ public class AirbusController {
 	@PostMapping("/search")
 	public List<AirbusDTO> search(@RequestBody AirbusDTO example) {
 		return AirbusDTO.createAirbusDTOListFromModelList(airbusService.findByExample(example.buildAirbusModel()),
-				false);
+				false,null);
 	}
 }

@@ -161,7 +161,7 @@ public class TrattaDTO {
 				trattaModel.getData(), trattaModel.getOraDecollo(),trattaModel.getOraAtterraggio(),trattaModel.getStato());
 
 		if (includeAirbus)
-			result.setAirbus(AirbusDTO.buildAirbusDTOFromModel(trattaModel .getAirbus(), false));
+			result.setAirbus(AirbusDTO.buildAirbusDTOFromModel(trattaModel .getAirbus(), false, null));
 
 		return result;
 	}

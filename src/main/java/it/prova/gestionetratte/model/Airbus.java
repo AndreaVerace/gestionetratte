@@ -36,7 +36,7 @@ public class Airbus {
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "airbus")
 	private Set<Tratta> tratte = new HashSet<Tratta>(0);
-
+	
 	public Airbus() {
 		
 	}
