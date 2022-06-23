@@ -42,6 +42,7 @@ public class TrattaDTO {
 	@JsonIgnoreProperties(value = { "tratte" })
 	private AirbusDTO airbus;
 
+	
 	public TrattaDTO() {
 		
 	}
@@ -76,6 +77,10 @@ public class TrattaDTO {
 		this.oraAtterraggio = oraAtterraggio;
 		this.stato = stato;
 	}
+
+	
+	
+	
 
 	public Long getId() {
 		return id;
@@ -129,6 +134,8 @@ public class TrattaDTO {
 		return stato;
 	}
 
+	
+	
 	public void setStato(Stato stato) {
 		this.stato = stato;
 	}

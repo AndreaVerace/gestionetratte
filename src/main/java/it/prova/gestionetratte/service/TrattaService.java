@@ -24,4 +24,6 @@ public interface TrattaService {
 	
 	List<Tratta> findAllByOraAtterraggioBefore(LocalTime oraAttuale);
 	
+	
+	
 }

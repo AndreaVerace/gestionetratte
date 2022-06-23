@@ -14,5 +14,5 @@ public interface TrattaRepository extends CrudRepository<Tratta, Long>, CustomTr
 	Tratta findSingleTrattaEager(Long id);
 
 	List<Tratta> findAllByOraAtterraggioBefore(LocalTime oraAttuale);
-
+	
 }

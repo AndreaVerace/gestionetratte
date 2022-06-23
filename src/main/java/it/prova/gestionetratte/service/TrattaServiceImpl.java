@@ -65,6 +65,8 @@ public class TrattaServiceImpl implements TrattaService {
 	public List<Tratta> findAllByOraAtterraggioBefore(LocalTime oraAttuale) {
 		 return trattaRepository.findAllByOraAtterraggioBefore(oraAttuale);
 	}
+
+	
 	
 	
 	

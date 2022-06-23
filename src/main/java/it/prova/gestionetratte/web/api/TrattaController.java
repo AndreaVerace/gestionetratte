@@ -1,7 +1,11 @@
 package it.prova.gestionetratte.web.api;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.validation.Valid;
 
@@ -18,8 +22,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.gestionetratte.dto.TrattaDTO;
+import it.prova.gestionetratte.model.Airbus;
 import it.prova.gestionetratte.model.Stato;
 import it.prova.gestionetratte.model.Tratta;
+import it.prova.gestionetratte.service.AirbusService;
 import it.prova.gestionetratte.service.TrattaService;
 import it.prova.gestionetratte.web.api.exception.IdNotNullForInsertException;
 import it.prova.gestionetratte.web.api.exception.TrattaNotFoundException;
@@ -31,6 +37,9 @@ public class TrattaController {
 
 	@Autowired
 	private TrattaService trattaService;
+	
+	@Autowired
+	private AirbusService airbusService;
 	
 	@GetMapping
 	public List<TrattaDTO> getAll() {
@@ -100,5 +109,34 @@ public class TrattaController {
 		return TrattaDTO.createTrattaDTOListFromModelList(trattaService
 				.findAllByOraAtterraggioBefore(LocalTime.now()), true);
 	}
+	
+	@GetMapping("/listaAirbusEvidenziandoSovrapposizioni")
+	public List<TrattaDTO> listaAirbusEvidenziandoSovrapposizioni(){
+		List<TrattaDTO> result = new ArrayList<>();
+		for(Airbus airbus : airbusService.listAllElements()) {
+			if(airbus.getTratte().size() > 1) {
+				for(int i = 1; i < airbus.getTratte().size(); i++) {
+					Tratta trattaUno = airbus.getTratte().stream().toList().get(0);			
+					Tratta trattaN = airbus.getTratte().stream().toList().get(i);
+					
+					if(trattaUno.getOraDecollo().isAfter(trattaN.getOraDecollo()) && trattaUno.getOraDecollo().isBefore(trattaN.getOraAtterraggio())
+							|| trattaUno.getOraAtterraggio().isBefore(trattaN.getOraAtterraggio()) && trattaUno.getOraAtterraggio().isAfter(trattaN.getOraDecollo())) {
+						result.add(TrattaDTO.buildTrattaDTOFromModel(trattaUno,true));
+					}
+					if(trattaN.getOraDecollo().isAfter(trattaUno.getOraDecollo()) && trattaN.getOraDecollo().isBefore(trattaUno.getOraAtterraggio())
+							|| trattaN.getOraAtterraggio().isBefore(trattaUno.getOraAtterraggio()) && trattaN.getOraAtterraggio().isAfter(trattaUno.getOraDecollo())) {
+						result.add(TrattaDTO.buildTrattaDTOFromModel(trattaN, true));
+					}
+				}
+			}
+		}
+		for(TrattaDTO tratta : result) {
+			
+		}
+		return result;
+	}
+	
+	
+	
 	
 }

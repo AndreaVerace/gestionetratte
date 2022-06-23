@@ -12,6 +12,7 @@ import javax.persistence.TypedQuery;
 import org.apache.commons.lang3.StringUtils;
 
 import it.prova.gestionetratte.model.Airbus;
+import it.prova.gestionetratte.model.Tratta;
 
 public class CustomAirbusRepositoryImpl implements CustomAirbusRepository {
 
@@ -23,7 +24,7 @@ public class CustomAirbusRepositoryImpl implements CustomAirbusRepository {
 		Map<String, Object> paramaterMap = new HashMap<String, Object>();
 		List<String> whereClauses = new ArrayList<String>();
 
-		StringBuilder queryBuilder = new StringBuilder("select a from Airbus a where a.id = a.id ");
+		StringBuilder queryBuilder = new StringBuilder("select a from Airbus a left join fetch a.tratte t where a.id = a.id ");
 
 		if (StringUtils.isNotEmpty(example.getCodice())) {
 			whereClauses.add(" a.codice  like :codice ");
