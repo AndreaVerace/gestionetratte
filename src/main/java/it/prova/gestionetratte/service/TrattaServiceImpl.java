@@ -7,8 +7,10 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import it.prova.gestionetratte.model.Stato;
 import it.prova.gestionetratte.model.Tratta;
 import it.prova.gestionetratte.repository.tratta.TrattaRepository;
+import it.prova.gestionetratte.web.api.exception.TrattaNotAnnullataException;
 
 @Service
 public class TrattaServiceImpl implements TrattaService {
@@ -46,6 +48,9 @@ public class TrattaServiceImpl implements TrattaService {
 	@Override
 	@Transactional
 	public void rimuovi(Tratta trattaInstance) {
+		if(!trattaInstance.getStato().equals(Stato.ANNULLATA)) {
+			throw new TrattaNotAnnullataException("Per eliminare una tratta quest'ultima deve essere annullata.");
+		}
 		trattaRepository.delete(trattaInstance);		
 	}
 

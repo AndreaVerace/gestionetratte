@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import it.prova.gestionetratte.model.Airbus;
 import it.prova.gestionetratte.repository.airbus.AirbusRepository;
+import it.prova.gestionetratte.web.api.exception.AirbusWithTratteException;
 
 @Service
 public class AirbusServiceImpl implements AirbusService {
@@ -50,6 +51,9 @@ public class AirbusServiceImpl implements AirbusService {
 	@Override
 	@Transactional
 	public void rimuovi(Airbus airbusInstance) {
+		if(!airbusInstance.getTratte().isEmpty()) {
+			throw new AirbusWithTratteException("Non puoi eliminare un airbus con delle tratte.");
+		}
 		 airbusRepository.delete(airbusInstance);
 		
 	}
