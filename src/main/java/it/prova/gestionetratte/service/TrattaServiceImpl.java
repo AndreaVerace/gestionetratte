@@ -1,5 +1,6 @@
 package it.prova.gestionetratte.service;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -18,6 +19,7 @@ public class TrattaServiceImpl implements TrattaService {
 	@Autowired
 	private TrattaRepository trattaRepository;
 
+	
 	@Override
 	public List<Tratta> listAllElements(boolean eager) {
 		return (List<Tratta>) trattaRepository.findAll();
@@ -57,6 +59,11 @@ public class TrattaServiceImpl implements TrattaService {
 	@Override
 	public List<Tratta> findByExample(Tratta example) {
 		return trattaRepository.findByExample(example);
+	}
+
+	@Override
+	public List<Tratta> findAllByOraAtterraggioBefore(LocalTime oraAttuale) {
+		 return trattaRepository.findAllByOraAtterraggioBefore(oraAttuale);
 	}
 	
 	

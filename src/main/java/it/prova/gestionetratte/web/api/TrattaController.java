@@ -1,5 +1,6 @@
 package it.prova.gestionetratte.web.api;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import it.prova.gestionetratte.dto.TrattaDTO;
+import it.prova.gestionetratte.model.Stato;
 import it.prova.gestionetratte.model.Tratta;
 import it.prova.gestionetratte.service.TrattaService;
 import it.prova.gestionetratte.web.api.exception.IdNotNullForInsertException;
@@ -83,6 +85,20 @@ public class TrattaController {
 	public List<TrattaDTO> search(@RequestBody TrattaDTO example) {
 		return TrattaDTO.createTrattaDTOListFromModelList(trattaService.findByExample(example.buildTrattaModel()),
 				true);
+	}
+
+	@GetMapping("/concludiTratte")
+	public List<TrattaDTO> concludiTratte(){
+		
+		for(Tratta tratta : trattaService.findAllByOraAtterraggioBefore(LocalTime.now())) {
+			if(tratta.getStato().equals(Stato.ATTIVA)) {
+				tratta.setStato(Stato.CONCLUSA);
+				trattaService.aggiorna(tratta);
+			}
+		}
+		
+		return TrattaDTO.createTrattaDTOListFromModelList(trattaService
+				.findAllByOraAtterraggioBefore(LocalTime.now()), true);
 	}
 	
 }

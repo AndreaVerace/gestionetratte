@@ -1,5 +1,6 @@
 package it.prova.gestionetratte.service;
 
+import java.time.LocalTime;
 import java.util.List;
 
 import it.prova.gestionetratte.model.Tratta;
@@ -20,5 +21,7 @@ public interface TrattaService {
 	void rimuovi(Tratta trattaInstance);
 
 	List<Tratta> findByExample(Tratta example);
+	
+	List<Tratta> findAllByOraAtterraggioBefore(LocalTime oraAttuale);
 	
 }
